@@ -5,7 +5,7 @@ app =
   bindEvents: ->
     document.addEventListener 'deviceready', this.onDeviceReady, false
 
-  onDeviceReady: -> 
+  onDeviceReady: ->
     app.receivedEvent 'deviceready'
 
   receivedEvent: (id) ->
@@ -17,5 +17,6 @@ app =
     receivedElement.setAttribute 'style', 'display:block'
     
     console.log 'Received Event: ' + id
+    console.log 'max benri'
 
 window.onload = -> app.initialize()

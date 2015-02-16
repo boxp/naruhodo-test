@@ -8,6 +8,7 @@ concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
 runSequence = require 'run-sequence'
 
+cordova = require('cordova-lib').cordova.raw
 sources =
   coffee: 'coffee/*.coffee'
 
@@ -18,7 +19,7 @@ gulp.task 'browser-sync', ->
   browserSync 
     open: true
     server:
-      baseDir: "./www"
+      baseDir: "./platforms/browser/www"
     watchOptions:
       debounceDelay: 1000
 
@@ -35,11 +36,12 @@ gulp.task 'src', ->
   .pipe(gulp.dest(destinations.js))
 
 gulp.task 'watch', ->
-  gulp.watch sources.coffee, ['lint', 'src']
-  gulp.watch 'www/**/**', (file) ->
+  gulp.watch sources.coffee, ['lint', 'src', 'build']
+  gulp.watch './platforms/browser/www/js/**', (file) ->
     browserSync.reload(file.path) if file.type is "changed"
 
 gulp.task 'build', ->
   runSequence ['lint', 'src']
+  cordova.build()
 
 gulp.task 'default', ['build', 'browser-sync', 'watch']
